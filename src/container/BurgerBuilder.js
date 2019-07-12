@@ -12,14 +12,28 @@ import * as actionType from '../reduxStore/actions';
 
 class BurgerBuilder extends Component{
 
-    
+    componentDidMount()
+    {
+        if(!this.props.ingData)
+        {
+            this.props.onInitIngredients();
+        }
+        
+    }
+
     render()
     {
-       
+        let burger ='Loading..';
+        let orderHistory = null;
+        if(this.props.ingData)
+        {
+            burger = <Burger ingredients={this.props.ingData}/>;
+            orderHistory = <OrderHistory price={this.props.totalPrice} ingredients={this.props.ingData}/>;
+        }
         return(
             <Aux>
              
-                 <Burger ingredients={this.props.ingData}/>
+                 {burger}
 
             <div className="burger_builder">
                 <p>Price : <strong>{this.props.totalPrice}</strong></p>
@@ -27,7 +41,7 @@ class BurgerBuilder extends Component{
                 removeIngrediant={(type)=> this.props.onRemoveIngrediant(type)}
                 ingInfo={this.props.ingData}
                 />
-                <OrderHistory price={this.props.totalPrice} ingredients={this.props.ingData}/>
+                {orderHistory}
             </div>   
             </Aux>
             
@@ -47,7 +61,8 @@ const mapDistachToProps =(dispatch) =>
 {
     return{
         onAddIngrediant: (iName)=> dispatch({type : actionType.ADD_INGREDIANT,ingName: iName}),
-        onRemoveIngrediant: (iName)=> dispatch({type : actionType.REMOVE_INGREDIANT,ingName: iName})
+        onRemoveIngrediant: (iName)=> dispatch({type : actionType.REMOVE_INGREDIANT,ingName: iName}),
+        onInitIngredients : () => dispatch ({type:actionType.INIT_INGREDIANTS})
     }
 }
 export default connect(mapStateToProps,mapDistachToProps)(BurgerBuilder);

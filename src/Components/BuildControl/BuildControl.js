@@ -15,7 +15,7 @@ const BuildControl = (props)=>
         key={ins.label} 
         added={()=>props.addIngrediant(ins.type)}
         removed ={()=>props.removeIngrediant(ins.type)}
-        disabled = {props.ingInfo[ins.type]<=0 ? true : false}
+        disabled = {props.ingInfo && props.ingInfo[ins.type]<=0 ? true : false}
         />
     ))
     return (
