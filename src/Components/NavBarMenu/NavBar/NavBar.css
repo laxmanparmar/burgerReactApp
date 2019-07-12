@@ -46,6 +46,10 @@
     color: #efefef;
   }
   
+  .nav > .nav-links > .active {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+
   .nav > .nav-links > a:hover {
     background-color: rgba(0, 0, 0, 0.3);
   }

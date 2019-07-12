@@ -30,3 +30,7 @@
     background-color: #99703F;
     color: white;
 }
+.burger_control_burgerBtn:disabled{
+    background-color: #99703F;
+    cursor: not-allowed;
+}

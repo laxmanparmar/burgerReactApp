@@ -1,68 +1,33 @@
 import React,{Component} from 'react';
 import Burger from '../Components/Burger/Burger';
 import BuildControl from '../Components/BuildControl/BuildControl';
+
+import OrderHistory from '../Components/OrderHistory/OrderHistory';
+import {connect} from 'react-redux';
 import './BurgerBuilder.css';
 import Aux from '../hoc/Aux/Aux';
+import * as actionType from '../reduxStore/actions';
 
-const price = {
-    salad: 2.5,
-    cheese: 1.5,
-    meat: 3,
-    bacon: 2
-};
+
 
 class BurgerBuilder extends Component{
 
-    state={
-        ingredients: {
-            salad: 0,
-            bacon: 0,
-            cheese: 0,
-            meat: 0
-        },
-        totalPrice: 4,
-       
-    }
-       
-    addIngrediant =(type)=>{
-        const count = this.state.ingredients[type];
-        const newCount = count + 1;
-        const ingredientCopy = {
-            ...this.state.ingredients
-        };
-        ingredientCopy[type] = newCount;
-        const ingredientPrice = price[type];
-
-        this.setState( { totalPrice: this.state.totalPrice+ingredientPrice,
-             ingredients: ingredientCopy } );
-    }
-
-    removeIngrediant = (type) =>{
-        const count = this.state.ingredients[type];
-        if(count <=0)
-        {
-            return;
-        }
-        const newCount = count - 1;
-        const ingredientCopy = {
-            ...this.state.ingredients
-        };
-        ingredientCopy[type] = newCount;
-        const ingredientPrice = price[type];
-
-        this.setState( { totalPrice: this.state.totalPrice-ingredientPrice,
-             ingredients: ingredientCopy } );
-    }
+    
     render()
     {
+       
         return(
             <Aux>
-                 <Burger ingredients={this.state.ingredients}/>
+             
+                 <Burger ingredients={this.props.ingData}/>
+
             <div className="burger_builder">
-                <p>Price : <strong>{this.state.totalPrice}</strong></p>
-                <BuildControl addIngrediant={(type)=>this.addIngrediant(type)}
-                removeIngrediant={(type)=> this.removeIngrediant(type)}
+                <p>Price : <strong>{this.props.totalPrice}</strong></p>
+                <BuildControl addIngrediant={(type)=>this.props.onAddIngrediant(type)}
+                removeIngrediant={(type)=> this.props.onRemoveIngrediant(type)}
+                ingInfo={this.props.ingData}
                 />
+                <OrderHistory price={this.props.totalPrice} ingredients={this.props.ingData}/>
             </div>   
             </Aux>
             
@@ -70,4 +35,19 @@ class BurgerBuilder extends Component{
     }
 }
 
-export default BurgerBuilder;
+const mapStateToProps = (state) =>
+{
+    return  { ingData : state.ingredients,
+            totalPrice : state.totalPrice
+            };
+    
+}
+
+const mapDistachToProps =(dispatch) =>
+{
+    return{
+        onAddIngrediant: (iName)=> dispatch({type : actionType.ADD_INGREDIANT,ingName: iName}),
+        onRemoveIngrediant: (iName)=> dispatch({type : actionType.REMOVE_INGREDIANT,ingName: iName})
+    }
+}
+export default connect(mapStateToProps,mapDistachToProps)(BurgerBuilder);

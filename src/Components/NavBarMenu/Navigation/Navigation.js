@@ -1,10 +1,14 @@
 import React from 'react';
 import Aux from '../../../hoc/Aux/Aux';
-
+import {NavLink} from 'react-router-dom';
 const Navigation = (props)=>
 {
     return (
-        <Aux><a href={props.urlPath} >{props.children}</a></Aux>
+        <Aux>
+            <NavLink to={"/"+props.children} >{props.children}</NavLink>
+            
+            
+            </Aux>
         
     )
 }

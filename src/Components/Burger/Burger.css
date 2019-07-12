@@ -26,6 +26,8 @@
     .burger-menu>.bottom
     {
         background: #e27b36;
+        border-bottom-left-radius: 45px;
+    border-bottom-right-radius: 45px;
     }
     .burger-menu>.meat
     {
