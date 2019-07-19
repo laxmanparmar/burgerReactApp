@@ -21,7 +21,7 @@ class Checkout extends Component
         return(
             <div>
                     <Summary ingredients={this.props.ingData} price={this.props.totalPrice}/>
-                    <a className="buttonOk" onClick={this.orderBurger}>Order</a>
+                    
             </div>
             
         )
